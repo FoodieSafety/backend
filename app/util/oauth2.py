@@ -5,7 +5,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
 from datetime import datetime, timedelta, timezone
-from backend.app.util.schemas import TokenData
+from app.util.schemas import TokenData
 
 # Load environment variables
 load_dotenv()
