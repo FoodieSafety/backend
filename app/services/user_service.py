@@ -2,10 +2,10 @@ from fastapi import APIRouter, status
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from typing import List
-from app.util.schemas import UserCreate, UserResponse
-from app.controllers.user_controller import UserController
-from app.util.database import get_db
-
+from ..util.schemas import UserCreate, UserResponse
+from ..controllers.user_controller import UserController
+from ..util.database import get_db
+from ..util.oauth2 import get_current_user
 # Create a router object
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -38,8 +38,12 @@ def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     """
     return UserController.get_user_by_id(user_id, db)
 
-@router.put("/{user_id}", response_model=UserResponse)
-def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
+@router.put("", response_model=UserResponse)
+def update_user(
+        user: UserCreate,
+        db: Session = Depends(get_db),
+        token_data = Depends(get_current_user)
+):
     """
     Update user by id
     :param user_id: input user id
@@ -47,14 +51,17 @@ def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
     :param db: session object
     :return: response
     """
-    return UserController.update_user(user_id, user, db)
+    return UserController.update_user(user, db, token_data)
 
-@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+@router.delete("", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user(
+        db: Session = Depends(get_db),
+        token_data = Depends(get_current_user)
+):
     """
     Delete user by id
     :param user_id: input user id
     :param db: session object
     :return: response
     """
-    return UserController.delete_user(user_id, db)
+    return UserController.delete_user(db, token_data)

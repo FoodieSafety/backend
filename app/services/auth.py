@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, status, HTTPException, Response
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
-from app.util.database import get_db
-from app.util.schemas import UserLogin
-from app.util.models import User
-from app.util.hash import verify_password
-from app.util.oauth2 import create_access_token
+from ..util.database import get_db
+from ..util.schemas import UserLogin
+from ..util.models import User
+from ..util.hash import verify_password
+from ..util.oauth2 import create_access_token
 router = APIRouter(tags=["Authentication"])
 
 @router.post("/login", status_code=status.HTTP_200_OK)
@@ -32,10 +32,7 @@ def login(user_credentials: UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login credentials")
 
     # Create JWT token
-    access_token = create_access_token(
-        source_data={
-            "sub": user.user_id
-        })
+    access_token = create_access_token(source_data={"user_id": user.user_id})
 
     return {
         "access_token": access_token,

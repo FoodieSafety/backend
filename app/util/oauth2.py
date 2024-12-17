@@ -5,7 +5,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
 from datetime import datetime, timedelta, timezone
-from app.util.schemas import TokenData
+from ..util.schemas import TokenData
 
 # Load environment variables
 load_dotenv()
@@ -47,19 +47,18 @@ def validate_access_token(token: str, credential_exception):
         payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM"))
 
         # Check if the payload contains the required fields
-        user_id = payload.get("sub")
+        user_id = payload.get("user_id")
         if not user_id:
             raise credential_exception
 
-        token_data = TokenData(user_id=user_id)
+        return TokenData(user_id=user_id)
 
     except jwt.exceptions.InvalidTokenError:
         raise credential_exception
 
-    return token_data
 
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+def get_current_user(token: str = Depends(oauth2_scheme)) -> TokenData:
     exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid credentials",

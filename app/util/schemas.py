@@ -25,6 +25,4 @@ class Token(BaseModel):
 
 # The data to embed in the token
 class TokenData(BaseModel):
-    user_id: Optional[str]
-    username: Optional[str]
-    email: Optional[EmailStr]
+    user_id: Optional[int]
