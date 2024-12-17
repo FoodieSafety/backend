@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from typing import List
-from backend.app.util.schemas import UserCreate, UserResponse
-from backend.app.dao.user_dao import UserDao
+from app.util.schemas import UserCreate, UserResponse
+from app.dao.user_dao import UserDao
 
 
 class UserController:

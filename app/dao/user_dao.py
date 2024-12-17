@@ -2,10 +2,10 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from typing import List
 from fastapi import HTTPException, status
-from backend.app.util.schemas import UserCreate, UserResponse
-from backend.app.util.models import Base, User
-from backend.app.util.database import engine
-from backend.app.util.hash import hash_password
+from app.util.schemas import UserCreate, UserResponse
+from app.util.models import Base, User
+from app.util.database import engine
+from app.util.hash import hash_password
 
 # Bind engine to metadata and create all tables
 Base.metadata.create_all(bind=engine)
