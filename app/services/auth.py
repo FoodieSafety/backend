@@ -10,17 +10,16 @@ from ..util.oauth2 import create_access_token
 router = APIRouter(tags=["Authentication"])
 
 @router.post("/login", status_code=status.HTTP_200_OK)
-def login(user_credentials: UserLogin, db: Session = Depends(get_db)):
+def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     """
     User login
     :param user_credentials: user credentials to login
     :param db: session object
     :return: response
     """
-    # Check valid username and email
+    # Check valid username
     user = db.query(User).filter(
         User.username == user_credentials.username,
-        User.email == user_credentials.email
     ).first()
 
     # Validate username, email and password simultaneously
