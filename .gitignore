@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environment folder
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+
+# Pycharm
+.idea
+
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+dist/
+
+
+# Ignore local log files
+logs/
+*.log
+
+# AWS SAM build file
+*.aws-sam
