@@ -22,7 +22,6 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session =
         User.username == user_credentials.username,
     ).first()
 
-    # Validate username, email and password simultaneously
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login credentials")
 
